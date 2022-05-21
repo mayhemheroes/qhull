@@ -1,0 +1,10 @@
+image: ghcr.io/capuanob/qhull-fuzz:latest
+project: qhull
+target: qhull-fuzz
+tests:
+  - file://corpus
+
+cmds:
+  - cmd: /qhull/build/qhull
+    afl: true
+    max_length: 50000000

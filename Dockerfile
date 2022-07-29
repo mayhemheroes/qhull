@@ -16,8 +16,12 @@ WORKDIR build
 RUN cmake -DCMAKE_C_COMPILER=afl-clang-fast -DCMAKE_CXX_COMPILER=afl-clang-fast++ ..
 RUN make -j$(nproc)
 
-## Generate test corpus
-RUN mkdir /tests && echo seed > /tests/seed
+## Package Stage
+FROM fuzzers/aflplusplus:3.12c
 
-ENTRYPOINT ["afl-fuzz", "-i", "/tests", "-o", "/out"]
-CMD ["/qhull/build/qhull"]
+## Generate test corpus
+RUN mkdir /testsuite && echo seed > /testsuite/seed
+
+COPY --from=builder /qhull/build/qhull /qhull
+ENTRYPOINT ["afl-fuzz", "-i", "/testsuite", "-o", "/out"]
+CMD ["/qhull"]

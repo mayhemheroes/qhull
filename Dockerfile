@@ -6,10 +6,8 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git cmake
 
 ## Add source code to the build stage.
-WORKDIR /
-RUN git clone https://github.com/capuanob/qhull.git
+ADD . /qhull
 WORKDIR /qhull
-RUN git checkout mayhem
 
 ## Build
 WORKDIR build
